@@ -55,4 +55,59 @@ const login = async(req, res) => {
     }   
 };
 
-export {register, login};
+const uploadProfilePicture = async(req, res) => {
+    try{
+       const {token} = req.body;
+       if(!token){
+        return res.status(400).json({message: "Token is required"});
+       }
+       const user = await User.findOne({ token });
+       if(!user){
+        return res.status(404).json({message: "User not found"});
+       }
+       user.profilePicture = req.file.filename;
+       await user.save();
+       return res.status(200).json({message: "Profile picture updated successfully"});
+    }catch(error){
+        return res.status(500).json({message: error.message});
+    }
+};
+
+const updateUserProfile = async(req, res) => {
+    try{
+        const {token, ...newUserData} = req.body;
+        const user = await User.findOne({ token : token });
+        if(!user){
+            return res.status(404).json({message: "User not found"});
+        }
+        const { username, email } = newUserData;
+        const existingUser = await User.findOne({$or : [{username}, {email}]});
+        if(existingUser || String(existingUser._id) !== String(user._id)){
+            return res.status(400).json({message: "User already exists"});
+        }
+        Object.assign(user, newUserData);
+        await user.save();
+        return res.status(200).json({message: "User updated successfully"});
+    }catch(error){
+        return res.status(500).json({message: error.message});
+    }
+};
+
+const getUserAndProfile = async(req, res) =>{
+    try{
+        const { token } = req.body;
+        if(!token){
+            return res.status(400).json({message: "Token is required"});
+        }
+        const user = await User.findOne({ token });
+        if(!user){
+            return res.status(404).json({message: "User not found"});
+        }
+        const userProfile = await User.findOne({userId : user._id}).populate("userId", "name email username profilePicture");
+        return res.status(200).json({userProfile});
+    }catch(error){
+        return res.status(500).json({message: error.message});
+    }
+};
+
+export {register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile};
