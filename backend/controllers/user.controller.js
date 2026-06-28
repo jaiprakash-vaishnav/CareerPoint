@@ -110,4 +110,26 @@ const getUserAndProfile = async(req, res) =>{
     }
 };
 
-export {register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile};
+const updateProfileData = async(req, res) => {
+    try{
+        const { token, ...newProfileData } = req.body;
+        if(!token){
+            return res.status(400).json({message: "Token is required"});
+        }
+        const userProfile = await User.findOne({ token : token });
+        if(!userProfile){
+            return res.status(404).json({message: "User not found"});
+        }
+        const profileToUpdate = await Profile.findOne({ userId: userProfile._id });
+        if(!profileToUpdate){
+            return res.status(404).json({message: "Profile not found"});
+        }
+        Object.assign(profileToUpdate, newProfileData);
+        await profileToUpdate.save();
+        return res.status(200).json({message: "Profile updated successfully"});
+    }catch(error){
+        return res.status(500).json({message: error.message});
+    }   
+};
+
+export {register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData};
