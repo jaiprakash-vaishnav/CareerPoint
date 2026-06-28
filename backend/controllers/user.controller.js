@@ -132,4 +132,13 @@ const updateProfileData = async(req, res) => {
     }   
 };
 
-export {register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData};
+const getAllUsersProfile = async(req, res) => {
+    try{
+        const usersProfiles = await Profile.find().populate("userId", "name username email profilePicture");
+        return res.status(200).json({usersProfiles});
+    }catch(error){
+        return res.status(500).json({message: error.message});
+    }
+};
+
+export {register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUsersProfile};
