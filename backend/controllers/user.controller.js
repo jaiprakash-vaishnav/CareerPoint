@@ -14,7 +14,6 @@ const register = async(req, res) => {
         if(user){
             return res.status(400).json({message: "User already exists"});
         }
-        console.log("Creating user");
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({
             name,
@@ -23,9 +22,10 @@ const register = async(req, res) => {
             username
         });
         await newUser.save();
-        // const Profile = new Profile({
-        //     user: newUser._id
-        // });
+        const profile = new Profile({
+            userId: newUser._id
+        });
+        await profile.save();
         return res.status(201).json({message: "User created successfully"});
     }catch(error){
         return res.status(500).json({message: error.message});
@@ -103,7 +103,7 @@ const getUserAndProfile = async(req, res) =>{
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
-        const userProfile = await User.findOne({userId : user._id}).populate("userId", "name email username profilePicture");
+        const userProfile = await Profile.findOne({userId : user._id}).populate("userId", "name email username profilePicture");
         return res.status(200).json({userProfile});
     }catch(error){
         return res.status(500).json({message: error.message});
