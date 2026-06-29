@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(postsRoute);
 app.use(userRoute);
+app.use(express.static("uploads"));
+
 const PORT = process.env.PORT || 9090;
 const MONGO_URL = process.env.MONGO_URL;
 

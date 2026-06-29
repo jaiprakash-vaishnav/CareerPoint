@@ -1,11 +1,14 @@
+// 1. All the API requests for testing the backend server and temparily storing the token for testing purposes 
+// 2 .After that all data will deleted.
+
 POST http://localhost:9090/register HTTP/1.1
 content-Type: application/json
 
 {
-    "username": "a",
-    "password": "a",
-    "email": "a",
-    "name": "a"
+    "username": "jai",
+    "password": "jai",
+    "email": "jai@example.com",
+    "name": "Jai"
 }
 
 ###
@@ -16,6 +19,16 @@ content-Type: application/json
 {
     "email": "a",
     "password": "a"
+}
+
+###
+
+POST http://localhost:9090/login HTTP/1.1
+content-Type: application/json
+
+{
+    "email": "jai@example.com",
+    "password": "jai"
 }
 
 ###
@@ -55,4 +68,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:9090/get_all_users HTTP/1.1
+GET http://localhost:9090/user/get_all_users HTTP/1.1
