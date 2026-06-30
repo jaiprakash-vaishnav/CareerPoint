@@ -4,6 +4,7 @@ import Profile from '../models/profile.model.js';
 import crypto from 'crypto';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
+import ConnectionRequest from "../models/connections.model.js";
 
 const convertUserDataTOPDF = async(userData) => {
     const doc = new PDFDocument();
@@ -181,4 +182,47 @@ const downloadProfile = async(req, res) => {
     }
 };
 
-export {register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUsersProfile, downloadProfile};
+const sendConnectionRequest = async(req, res)=>{
+    const { token , connectionId} = req.body;
+    try {
+        const user = await User.findOne({ token : token});
+        if(!user){
+            return res.status(404).json({ message : "User not found"});
+        }
+        const connectionUser = await User.findOne({ _id : connectionId});
+        if(!connectionUser){
+            return res.status(404).json({message : "Connection User not found"});
+        }
+        const existingRequest = await ConnectionRequest.findOne({
+            userId : user._id,
+            connectionId : connectionUser._id
+        });
+        if(existingRequest){
+            return res.status(400).json({message : "Request already sent"});
+        }
+        const request = new ConnectionRequest({
+            userId : user._id,
+            connectionId : connectionUser._id
+        })
+        await request.save();
+        return res.status(201).json({message : "Request sent"});
+    } catch (error) {
+        return res.status(500).json({message : error.message});
+    }
+};
+
+const getMyConnectionRequest = async(req, res) =>{
+    const { token } = req.body;
+    try {
+        const user = await User.findOne({ token });
+        if(!user){
+            return res.status(404).json({message : "User not found"});
+        }
+        const connections = await ConnectionRequest.find({ userId : user._id}).populate("connectionId", "name username email profilePicture"); 
+        return res.json({connections});
+    } catch (error) {
+        return res.status(500).json({message : error.message});
+    }
+};
+
+export { register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUsersProfile, downloadProfile, sendConnectionRequest, getMyConnectionRequest};
