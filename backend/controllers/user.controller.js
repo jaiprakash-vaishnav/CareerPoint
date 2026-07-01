@@ -225,4 +225,37 @@ const getMyConnectionRequest = async(req, res) =>{
     }
 };
 
-export { register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUsersProfile, downloadProfile, sendConnectionRequest, getMyConnectionRequest};
+const whatAreMyConnection = async(req, res) =>{
+    const { token } = req.body;
+    try {
+        const user = await User.findOne({ token });
+        if(!user){
+            return res.status(404).json({message : "User not found"});
+        }
+        const connections = await ConnectionRequest.find({ connectionId : user._id}).populate("userId", "name username email profilePicture");
+        return res.json({connections});
+    } catch (error) {
+        return res.status(500).json({message : error.message});
+    }
+};
+
+const acceptConnectionRequest = async(req, res) =>{
+    const {token, requestId, action_type} = req.body;
+    try {
+        const user = await User.findOne({ token });
+        if(!user){
+            return res.status(404).json({message : "User not found"});
+        }
+        const connectionRequest = await ConnectionRequest.findOne({ _id : requestId});
+        if(!connectionRequest){
+            return res.status(404).json({message : "Connection Request not found"});
+        }
+        connectionRequest.status_accepted = action_type === "accept" ? true : false;
+        await connectionRequest.save();
+        return res.status(200).json({message : `Request ${action_type}ed successfully`});
+    } catch (error) {
+        return res.status(500).json({message : error.message});
+    }
+};
+
+export { register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUsersProfile, downloadProfile, sendConnectionRequest, getMyConnectionRequest, whatAreMyConnection, acceptConnectionRequest };
