@@ -29,4 +29,14 @@ const createPost = async(req, res) => {
         return res.status(500).json({message: err.message});
     }
 };
-export {activeCheck, createPost};
+
+const getAllPosts = async(req, res) => {
+    try {
+        const posts = await Post.find().populate("userId", "name username email profilePicture");
+        return res.json({posts});
+    } catch (error) {
+        return res.status(500).json({message : error.message});
+    }
+};
+
+export {activeCheck, createPost, getAllPosts};
