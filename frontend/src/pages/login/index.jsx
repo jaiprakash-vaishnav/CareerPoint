@@ -1,10 +1,12 @@
 import React from "react";
-
+import User from "@/layout/client/index.jsx";
 function LoginComponent(){
     return (
-        <div>
-            Login Component
-        </div>
+        <User>
+            <div>
+                Login Component
+            </div>
+        </User>
     )
 }
 
