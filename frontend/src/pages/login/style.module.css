@@ -1,0 +1,36 @@
+.container{
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    align-items: center;
+    background: snow;
+}
+
+.cardContainer{
+    height: 80vh;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 80vw;
+    background: white;
+    box-shadow: 10px 10px 10px 10px rgb(173, 173, 173);
+}
+
+.cardContainerLeft{
+    flex: 0.6;
+    padding: 2rem;
+    text-align: center;
+}
+
+.cardLeftHeading{
+    font-weight: bold;
+    font-size: 2.8rem;
+}
+
+.cardContainerRight{ 
+    flex: 0.4;
+    background: #ff4b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
