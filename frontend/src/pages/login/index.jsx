@@ -18,6 +18,7 @@ function LoginComponent() {
         <div className={styles.cardContainer}>
           <div className={styles.cardContainerLeft}>
             <p className={styles.cardLeftHeading}> {userLoginMethod ? "Sign In" : "Sign Up"}</p>
+            <Buttton>Login</Buttton>
           </div>
           <div className={styles.cardContainerRight}></div>
         </div>
