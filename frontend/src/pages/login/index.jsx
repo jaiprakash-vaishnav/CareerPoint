@@ -12,13 +12,26 @@ function LoginComponent() {
       router.push("/dashboard");
     }
   });
+  const handleRegister = () => {
+    setUserLoginMethod(!userLoginMethod);
+  }
   return (
     <User>
       <div className={styles.container}>
         <div className={styles.cardContainer}>
           <div className={styles.cardContainerLeft}>
             <p className={styles.cardLeftHeading}> {userLoginMethod ? "Sign In" : "Sign Up"}</p>
-            <Buttton>Login</Buttton>
+            <div className={styles.inputContainer}>
+              <div className={styles.inputRow}>
+                <input type="text" className={styles.inputField} placeholder="Username"/>
+                <input type="text" className={styles.inputField} placeholder="Name"/>
+              </div>
+              <input type="email" className={styles.inputField} placeholder="Email"/>
+              <input type="password" className={styles.inputField} placeholder="Password"/>
+              <div className={styles.buttonWithOutline}>
+                <p> {userLoginMethod ? "Sign In" : "Sign Up"}</p>
+              </div>
+            </div>
           </div>
           <div className={styles.cardContainerRight}></div>
         </div>

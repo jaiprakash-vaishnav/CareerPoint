@@ -22,6 +22,40 @@
     text-align: center;
 }
 
+.inputField{
+    padding-inline : 1.3rem;
+    padding-block : 0.8rem;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid silver;
+    width: 100%;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.3rem;
+    max-width: 400px;
+    margin: 0 auto;
+    gap: 1.2rem;
+}
+
+.inputRow{
+    width: fit-content;
+    display: flex;
+    gap: 1.2rem;
+}
+
+.buttonWithOutline{
+    cursor: pointer;
+    padding: 0.8rem 1.3rem;
+    width: 100%;
+    background: silver;
+    border-radius: 10px;
+}
+
 .cardLeftHeading{
     font-weight: bold;
     font-size: 2.8rem;
@@ -34,3 +68,4 @@
     justify-content: center;
     align-items: center;
 }
+
