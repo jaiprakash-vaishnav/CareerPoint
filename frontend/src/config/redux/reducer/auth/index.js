@@ -22,13 +22,6 @@ const authSlice = createSlice({
             state.message = "hello";
         }
     },
-    // loadingUser: async(state) =>{
-    //     const request = axios.post(`/login`, {});
-    //     const response = [];
-
-    //     state.user = response.data.token;
-
-    // },
     extraReducers: (builder) => {
         builder.addCase(loginUser.pending, (state) => {
             state.isLoading = true;
