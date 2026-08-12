@@ -20,7 +20,7 @@ function LoginComponent() {
     if (authState.logedIn) {
       router.push("/dashboard");
     }
-  });
+  }, [authState.logedIn]);
 
   const handleRegister = () => {
     console.log("Registering user...");
@@ -32,7 +32,7 @@ function LoginComponent() {
         <div className={styles.cardContainer}>
           <div className={styles.cardContainerLeft}>
             <p className={styles.cardLeftHeading}> {userLoginMethod ? "Sign In" : "Sign Up"}</p>
-            {authState.message}
+            <p >{authState.message}</p>
             <div className={styles.inputContainer}>
               <div className={styles.inputRow}>
                 <input onChange={(e)=>{

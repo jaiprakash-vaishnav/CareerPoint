@@ -31,6 +31,7 @@ const convertUserDataTOPDF = async(userData) => {
 const register = async(req, res) => {
     try{
         // Registration logic here
+        console.log("Registering user...");
         const { name, email, password, username } = req.body;
         if(!name || !email || !password || !username){
             return res.status(400).json({message: "All fields are required"});
